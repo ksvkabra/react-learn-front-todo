@@ -1,4 +1,5 @@
 import './App.css';
+import TodoForm from './components/TodoForm';
 
 // component - functional component
 
@@ -15,6 +16,7 @@ function ComponentTest() {
       todo form
       footer
     */}
+      <TodoForm />
     </div>
   );
 }
