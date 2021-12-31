@@ -1,6 +1,7 @@
 import { useState } from 'react';
 // state
-function TodoForm() {
+function TodoForm(props) {
+  const handleNewTodo = props.handleNewTodo;
   const returnedFromUseState = useState('New todo');
   const valueOfInput = returnedFromUseState[0];
   const setValue = returnedFromUseState[1];
@@ -12,6 +13,7 @@ function TodoForm() {
   function handleSubmit(event) {
     event.preventDefault();
     console.log(valueOfInput);
+    handleNewTodo(valueOfInput);
   }
 
   return (
