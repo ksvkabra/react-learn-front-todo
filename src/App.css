@@ -45,3 +45,8 @@
 span {
   margin: 2px 5px;
 }
+
+.header {
+  height: 80px;
+  background: black;
+}

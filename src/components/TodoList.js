@@ -6,7 +6,7 @@ function TodoList(props) {
       <h1>Todo List</h1>
       <div className='todo__list'>
         {todos.map(function (todo, index) {
-          return <span key={index}>{todo}</span>;
+          return <span key={todo.id}>{todo.title}</span>;
         })}
       </div>
     </div>
