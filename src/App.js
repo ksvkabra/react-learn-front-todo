@@ -17,15 +17,32 @@ function ComponentTest() {
   const todos = todosArray[0];
   const setTodos = todosArray[1];
 
-  function handleNewTodo(newTodo) {
-    setTodos(function (todosLastInstance) {
-      const copyOfTodo = Array.from(todosLastInstance);
-      copyOfTodo.push({
-        title: newTodo,
-        id: Math.floor(Math.random() * 10000),
-      });
-      return copyOfTodo;
+  async function handleNewTodo(newTodo) {
+    const requestBody = {
+      id: Math.floor(Math.random() * 10000),
+      title: newTodo,
+      completed: false,
+    };
+    console.log(requestBody);
+    const res = await fetch('http://localhost:3003/todos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
     });
+
+    const data = await res.json();
+    console.log(data);
+    setTodos(data);
+    // setTodos(function (todosLastInstance) {
+    //   const copyOfTodo = Array.from(todosLastInstance);
+    //   copyOfTodo.push({
+    //     title: newTodo,
+    //     id: Math.floor(Math.random() * 10000),
+    //   });
+    //   return copyOfTodo;
+    // });
   }
 
   async function fetchFakeTodos() {
@@ -34,6 +51,30 @@ function ComponentTest() {
     const data = await fakeTodos.json();
     setTodos(data);
   }
+
+  const handleCompleteTodo = async (id) => {
+    // 'http://localhost:3003/todos/:id'
+    const url = `http://localhost:3003/todos/${id}`;
+    const res = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await res.json();
+    if (data) {
+      const updatedTodos = todos.map((todo) =>
+        todo.id === data.id ? data : todo
+      );
+      console.log(
+        '🚀 ~ file: App.js ~ line 70 ~ handleCompleteTodo ~ updatedTodos',
+        todos,
+        updatedTodos
+      );
+      setTodos(updatedTodos);
+    }
+  };
 
   // called when component is mounted
   useEffect(function () {
@@ -80,7 +121,7 @@ function ComponentTest() {
       )} */}
       {(todos.length === 0 && <div>loading...</div>) ||
         (todos.length > 200 && <div>too many todos</div>) || (
-          <TodoList todos={todos} />
+          <TodoList todos={todos} handleCompleteTodo={handleCompleteTodo} />
         )}
     </HeaderWrapper>
   );

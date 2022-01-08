@@ -7,6 +7,7 @@ function TodoForm(props) {
   const setValue = returnedFromUseState[1];
 
   function handleChange(event) {
+    // will do something
     setValue(event.target.value);
   }
 

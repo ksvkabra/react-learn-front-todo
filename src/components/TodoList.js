@@ -1,12 +1,29 @@
 function TodoList(props) {
   const todos = props.todos;
+  const handleCompleteTodo = props.handleCompleteTodo;
 
   return (
     <div>
       <h1>Todo List</h1>
       <div className='todo__list'>
         {todos.map(function (todo, index) {
-          return <span key={todo.id}>{todo.title}</span>;
+          return (
+            <span
+              key={todo.id}
+              style={{
+                textDecoration: todo.isCompleted ? 'line-through' : 'none',
+              }}
+            >
+              {todo.title}
+              <button
+                onClick={() => {
+                  handleCompleteTodo(todo.id);
+                }}
+              >
+                complete
+              </button>
+            </span>
+          );
         })}
       </div>
     </div>
